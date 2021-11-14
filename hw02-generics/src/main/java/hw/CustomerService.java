@@ -1,49 +1,35 @@
 package hw;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class CustomerService {
 
     //todo: 3. надо реализовать методы этого класса
     //важно подобрать подходящую Map-у, посмотрите на редко используемые методы, они тут полезны
 
-    final Map <Customer, String> customers = new HashMap<>();
+    final Map<Customer, String> customers = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
 
     public Map.Entry<Customer, String> getSmallest() {
-        Map<Customer, String> customersCopy = copy();
-        return customersCopy.entrySet().stream().min((entry1, entry2) -> entry1.getKey().getScores() > entry2.getKey().getScores() ? 1 : -1).get();
+        TreeMap<Customer, String> customersCopy = copy();
+        return customersCopy.firstEntry();
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
 
-        Map<Customer, String> customersCopy = copy();
-        Customer returnCustomer = null;
-        Map.Entry<Customer, String> e = null;
+        TreeMap<Customer, String> customersCopy = copy();
 
-        for (Map.Entry<Customer, String> entry : customersCopy.entrySet()) {
-
-            if (!entry.getKey().equals(customer) && entry.getKey().getScores()>customer.getScores()) {
-                if (returnCustomer==null) {
-                    returnCustomer = entry.getKey();
-                    e = entry;
-                }
-                else if (entry.getKey().getScores()<returnCustomer.getScores()) {
-                    returnCustomer = entry.getKey();
-                    e = entry;
-                }
-            }
-        }
-
-        return e;
+        return customersCopy.higherEntry(customer);
     }
 
     public void add(Customer customer, String data) {
-        customers.put(customer,data);
+        customers.put(customer, data);
     }
 
-    private Map<Customer, String> copy() {
-        Map<Customer, String> customerCopy = new HashMap<Customer, String>();
-        for(Customer key : customers.keySet()) {
+    private TreeMap<Customer, String> copy() {
+        TreeMap<Customer, String> customerCopy = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
+        for (Customer key : customers.keySet()) {
             customerCopy.put(new Customer(key.getId(), key.getName(), key.getScores()), customers.get(key));
         }
         return customerCopy;
