@@ -1,0 +1,6 @@
+rem run docker instance
+docker run --rm --name pg-docker -e POSTGRES_PASSWORD=pass -e POSTGRES_USER=user -e POSTGRES_DB=dbSyreschikovAE -p 5430:5432 -d postgres:12
+
+
+rem stop docker instance
+docker container stop pg-docker
