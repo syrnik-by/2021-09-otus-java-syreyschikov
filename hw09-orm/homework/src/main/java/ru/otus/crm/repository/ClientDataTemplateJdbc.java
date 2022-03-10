@@ -60,12 +60,13 @@ public class ClientDataTemplateJdbc implements DataTemplate<Client> {
     }
 
     @Override
-    public void update(Connection connection, Client client) {
+    public long update(Connection connection, Client client) {
         try {
             dbExecutor.executeStatement(connection, "update client set name = ? where id = ?",
                     List.of(client.getName(), client.getId()));
         } catch (Exception e) {
             throw new DataTemplateException(e);
         }
+        return 0;
     }
 }

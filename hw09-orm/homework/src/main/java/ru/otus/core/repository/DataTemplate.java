@@ -11,5 +11,5 @@ public interface DataTemplate<T> {
 
     long insert(Connection connection, T object);
 
-    void update(Connection connection, T object);
+    long update(Connection connection, T object);
 }

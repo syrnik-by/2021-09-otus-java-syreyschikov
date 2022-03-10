@@ -32,7 +32,7 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
         StringBuilder values = new StringBuilder();
 
         query.append("INSERT INTO ").append(entity.getName().toLowerCase()).append(" (");
-        for (Field field : entity.getAllFields()) {
+        for (Field field : entity.getFieldsWithoutId()) {
             query.append(field.getName()).append(",");
             values.append("?,");
         }
