@@ -26,7 +26,6 @@ public class TestLoggingProxy {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            scanMethod(method, args);
             return method.invoke(testLoggingInterface, args);
         }
 
@@ -39,11 +38,6 @@ public class TestLoggingProxy {
                     result.add(method);
             }
             return result;
-        }
-
-        private void scanMethod(Method m, Object[] args) {
-            if(methods.contains(m))
-                logger.info(String.format("method: %s, param: %s", m.getName(), Arrays.toString(args)));
         }
     }
 }
