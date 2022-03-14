@@ -21,7 +21,7 @@ public class ResourcesFileLoader implements Loader {
     @Override
     public List<Measurement> load() throws FileNotFoundException {
         Gson gson = new Gson();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Andrew\\IdeaProjects\\2021-09\\hw08-serialization\\src\\test\\resources\\"+fileName));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("src\\test\\resources\\"+fileName));
         Type type = new TypeToken<List<Measurement>>(){}.getType();
 
         return gson.fromJson(bufferedReader,type);
