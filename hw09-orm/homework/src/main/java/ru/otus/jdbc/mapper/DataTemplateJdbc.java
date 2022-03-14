@@ -39,14 +39,17 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         return dbExecutor.executeSelect(connection, entitySQLMetaData.getSelectByIdSql(), List.of(id), rs -> {
             try {
                 if (rs.next()) {
+                    T optional = entityClassMetaData.getConstructor().newInstance();
                     for (Field field:fields) {
                         params.add(rs.getObject(field.getName(),
                                 field.getType()));
+                        entityClassMetaData.setMethodInvoke(field, rs, optional);
                     }
-                    entityClassMetaData.getConstructor().newInstance(params);
+                    return optional;
+
                 }
                 return null;
-            } catch (SQLException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            } catch (SQLException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 throw new DataTemplateException(e);
             }
         });
@@ -60,14 +63,16 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
             var list = new ArrayList<T>();
             try {
                 while (rs.next()) {
+                    T optional = entityClassMetaData.getConstructor().newInstance();
                     for (Field field:fields) {
                         params.add(rs.getObject(field.getName(),
                                 field.getType()));
+                        entityClassMetaData.setMethodInvoke(field, rs, optional);
                     }
-                    list.add(entityClassMetaData.getConstructor().newInstance(params));
+                    list.add(optional);
                 }
                 return list;
-            } catch (SQLException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            } catch (SQLException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 throw new DataTemplateException(e);
             }
         }).orElseThrow(() -> new RuntimeException("Unexpected error"));
