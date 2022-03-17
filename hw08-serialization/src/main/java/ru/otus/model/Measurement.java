@@ -22,8 +22,7 @@ public final class Measurement {
     @Override
     public String toString() {
         return "Measurement{" +
-                "name='" + name + '\'' +
-                ", value=" + value +
+                "name='" + name + "', value=" + value +
                 '}';
     }
 }

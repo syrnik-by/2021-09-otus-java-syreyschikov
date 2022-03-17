@@ -19,7 +19,6 @@ public class FileSerializer implements Serializer {
     public void serialize(Map<String, Double> data) throws IOException {
         //формирует результирующий json и сохраняет его в файл
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(data);
-        objectMapper.writeValue(new File(fileName),json);
+        objectMapper.writeValue(new File(fileName),data);
     }
 }
