@@ -75,4 +75,7 @@ allprojects {
             force("net.java.dev.jna:jna:5.8.0")
         }
     }
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 }
